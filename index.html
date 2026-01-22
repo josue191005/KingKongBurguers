@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Burger KingKong - Las mejores Smash Burgers de la ciudad. Pide online ahora.">
+    <title>Burger KingKong | Smash & Grill</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. VARIABLES & RESET --- */
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --primary-color: #FF8C00; /* Naranja Fuego */
+            --primary-hover: #e07b00;
+            --text-main: #f5f5f5;
+            --text-muted: #aaaaaa;
+            --font-title: 'Anton', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+            --whatsapp-green: #25D366;
+            --shadow-glow: 0 4px 20px rgba(255, 140, 0, 0.3);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* --- UI COMPONENTS --- */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: #000;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 50px;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .section-title {
+            font-family: var(--font-title);
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 3rem;
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 5%;
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            letter-spacing: 1px;
+        }
+        
+        .logo span { color: var(--text-main); }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .nav-links a:hover { color: var(--primary-color); }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* --- HERO SECTION (ESTILO BASE) --- */
+        /* Nota: La posición y altura se controlan inline en el HTML para el efecto scroll */
+        #hero {
+            background: #000; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            padding-top: 80px; /* Offset header */
+            overflow: hidden;
+        }
+
+        .video-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; 
+            pointer-events: none;
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-family: var(--font-title);
+            font-size: 5rem;
+            line-height: 1;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .hero-content h1 span {
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- PROMO SECTION --- */
+        #promo {
+            background-color: var(--primary-color);
+            color: #000;
+            padding: 40px 5%;
+            text-align: center;
+            font-weight: 700;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #promo h2 {
+            font-family: var(--font-title);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        #promo p { font-size: 1.2rem; }
+
+        /* --- CATALOGO / MENU --- */
+        #menu {
+            padding: 80px 5%;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-glow);
+            border-color: var(--primary-color);
+        }
+
+        .card-img {
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .card-info {
+            padding: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-family: var(--font-title);
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+        }
+
+        .card-price {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-btn {
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .card-btn {
+            background: var(--primary-color);
+            color: #000;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: #000;
+            padding: 50px 5%;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+
+        .social-icons {
+            margin-bottom: 20px;
+        }
+
+        .social-icons a {
+            font-size: 1.5rem;
+            margin: 0 15px;
+            color: var(--text-main);
+            transition: var(--transition);
+        }
+
+        .social-icons a:hover { color: var(--primary-color); }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* --- MODAL --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            border: 1px solid var(--primary-color);
+            overflow: hidden;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #fff;
+            background: rgba(0,0,0,0.5);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .modal-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-title {
+            font-family: var(--font-title);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .modal-price {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .modal-desc {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        .whatsapp-cta {
+            background-color: var(--whatsapp-green);
+            color: white;
+            width: 100%;
+            text-align: center;
+            display: block;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .whatsapp-cta:hover {
+            background-color: #1ebc57;
+            transform: scale(1.02);
+        }
+
+        /* --- FLOATING WHATSAPP --- */
+        .float-wa {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--whatsapp-green);
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            z-index: 1500;
+            transition: var(--transition);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        .float-wa:hover {
+            transform: scale(1.1);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .section-title { font-size: 2.2rem; }
+            .hero-content h1 { font-size: 3rem; }
+            
+            .menu-toggle { display: block; }
+            
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-color);
+                flex-direction: column;
+                padding: 20px;
+                gap: 20px;
+                text-align: center;
+                transform: translateY(-150%);
+                transition: var(--transition);
+                border-bottom: 1px solid #333;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">BURGER <span>KINGKONG</span></div>
+        <nav>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#hero">Inicio</a></li>
+                <li><a href="#promo">Promociones</a></li>
+                <li><a href="#menu">Menú</a></li>
+                <li><a href="#footer">Contacto</a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+
+    <div class="scroll-track" style="height: 400vh; position: relative;">
+        
+        <section id="hero" style="position: sticky; top: 0; height: 100vh; width: 100%; margin-top: 0;">
+            <div class="video-wrapper">
+                <video id="scroll-video" muted playsinline preload="auto">
+                    <source src="animacion.mp4" type="video/mp4">
+                    Tu navegador no soporta videos HTML5.
+                </video>
+                <div class="video-overlay"></div>
+            </div>
+            <div class="hero-content">
+                <h1>Las Verdaderas <br> <span>Smash Burgers</span></h1>
+                <p>Carne 100% Angus, bordes crujientes y queso chorreando. La experiencia urbana que tu hambre necesita.</p>
+                <a href="#menu" class="btn">Ver Menú Completo</a>
+            </div>
+        </section>
+
+    </div>
+
+    <section id="promo" style="position: relative; z-index: 10; background-color: var(--primary-color);">
+        <i class="fas fa-fire-alt" style="font-size: 2rem; margin-bottom: 10px;"></i>
+        <h2>MARTES DE 2x1</h2>
+        <p>Pide dos "Classic Kong" y paga solo una. ¡Solo para pedidos por WhatsApp!</p>
+    </section>
+
+    <section id="menu" style="position: relative; z-index: 10; background-color: var(--bg-color);">
+        <h2 class="section-title">Nuestro Catálogo</h2>
+        <p class="section-subtitle">Elige tu bestia favorita</p>
+        
+        <div class="menu-grid" id="menu-container">
+            </div>
+    </section>
+
+    <footer id="footer" style="position: relative; z-index: 10;">
+        <div class="logo" style="margin-bottom: 20px;">BURGER <span>KINGKONG</span></div>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+        <p class="copyright">© 2024 Burger KingKong. Todos los derechos reservados.</p>
+        <p class="copyright" style="margin-top: 10px;">Diseñado para romper el hambre.</p>
+    </footer>
+
+    <a href="https://wa.me/51999999999" target="_blank" class="float-wa">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-close" id="close-modal">&times;</div>
+            <img src="" alt="Burger Detail" class="modal-img" id="modal-img">
+            <div class="modal-body">
+                <h3 class="modal-title" id="modal-title">Nombre Hamburguesa</h3>
+                <span class="modal-price" id="modal-price">$0.00</span>
+                <p class="modal-desc" id="modal-desc">Descripción...</p>
+                <a href="#" class="whatsapp-cta" id="modal-cta">
+                    <i class="fab fa-whatsapp"></i> PEDIR AHORA
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* --- 0. LÓGICA DE VIDEO SCROLL (NUEVO) --- */
+        // Esta sección controla la animación con el mouse
+        const video = document.getElementById('scroll-video');
+        const scrollTrack = document.querySelector('.scroll-track');
+        
+        // Usamos requestAnimationFrame para suavizar el movimiento
+        let isScrolling = false;
+
+        function updateVideoTime() {
+            if (!scrollTrack || !video.duration) return;
+
+            // 1. Dónde está el contenedor "scroll-track" respecto al top de la ventana
+            const trackRect = scrollTrack.getBoundingClientRect();
+            const trackTop = trackRect.top;
+            
+            // 2. Altura útil de scroll (Altura total - Altura de una pantalla)
+            const trackHeight = trackRect.height - window.innerHeight; 
+
+            // 3. Calculamos si estamos dentro de la zona de scroll
+            // Si trackTop es negativo, significa que estamos bajando por el track
+            if (trackTop <= 0 && -trackTop <= trackHeight) {
+                // Porcentaje recorrido (0.0 a 1.0)
+                const percent = Math.abs(trackTop) / trackHeight;
+                
+                // Actualizamos el tiempo del video basado en el porcentaje
+                video.currentTime = video.duration * percent;
+            } 
+            // 4. Corrección de límites
+            else if (trackTop > 0) {
+                // Si subimos más arriba del inicio, video al principio
+                video.currentTime = 0;
+            } else if (-trackTop > trackHeight) {
+                // Si bajamos más allá del final, video al final
+                video.currentTime = video.duration;
+            }
+
+            isScrolling = false;
+        }
+
+        // Escuchamos el evento de scroll del navegador
+        window.addEventListener('scroll', () => {
+            if (!isScrolling) {
+                window.requestAnimationFrame(updateVideoTime);
+                isScrolling = true;
+            }
+        });
+
+
+        /* --- 1. DATOS DEL NEGOCIO --- */
+        const WHATSAPP_NUMBER = "51999999999"; // CAMBIAR POR EL NÚMERO REAL
+        
+        const products = [
+            {
+                id: 1,
+                name: "The KingKong Smash",
+                price: "S/ 28.00",
+                category: "Smash",
+                img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800&auto=format&fit=crop",
+                desc: "Doble carne smash (150g), triple queso cheddar, tocino crujiente, cebolla caramelizada y nuestra salsa secreta Kong."
+            },
+            {
+                id: 2,
+                name: "Classic Cheese",
+                price: "S/ 22.00",
+                category: "Smash",
+                img: "https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=800&auto=format&fit=crop",
+                desc: "La clásica que nunca falla. Carne smash, doble queso americano, pepinillos, cebolla picada, ketchup y mostaza."
+            },
+            {
+                id: 3,
+                name: "Spicy Beast",
+                price: "S/ 26.00",
+                category: "Picante",
+                img: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?q=80&w=800&auto=format&fit=crop",
+                desc: "Para valientes. Carne smash con costra de pimienta, queso jack, jalapeños frescos y mayonesa de chipotle."
+            },
+            {
+                id: 4,
+                name: "Chicken Crispy",
+                price: "S/ 24.00",
+                category: "Pollo",
+                img: "https://images.unsplash.com/photo-1615557960916-5f4791effe9d?q=80&w=800&auto=format&fit=crop",
+                desc: "Pechuga de pollo empanizada estilo sureño, coleslaw casero y salsa BBQ miel en pan brioche tostado."
+            },
+            {
+                id: 5,
+                name: "Papas Kong",
+                price: "S/ 15.00",
+                category: "Sides",
+                img: "https://images.unsplash.com/photo-1585109649139-366815a0d713?q=80&w=800&auto=format&fit=crop",
+                desc: "Papas fritas nativas bañadas en queso cheddar fundido, trozos de tocino real y cebollita china."
+            },
+            {
+                id: 6,
+                name: "Onion Rings",
+                price: "S/ 12.00",
+                category: "Sides",
+                img: "https://images.unsplash.com/photo-1639024471283-03518883512d?q=80&w=800&auto=format&fit=crop",
+                desc: "Aros de cebolla gigantes, rebozados en cerveza negra y acompañados de salsa tártara de la casa."
+            }
+        ];
+
+        /* --- 2. RENDERIZADO DEL CATÁLOGO --- */
+        const menuContainer = document.getElementById('menu-container');
+
+        function renderMenu() {
+            menuContainer.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <img src="${product.img}" alt="${product.name}" class="card-img" loading="lazy">
+                    <div class="card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">${product.name}</h3>
+                            <span class="card-price">${product.price}</span>
+                        </div>
+                        <p class="card-desc">${product.desc}</p>
+                        <button class="card-btn" onclick="openModal(${product.id})">
+                            VER DETALLES
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        renderMenu();
+
+        /* --- 3. LÓGICA DEL MODAL --- */
+        const modal = document.getElementById('modal');
+        const closeModal = document.getElementById('close-modal');
+        
+        // Elementos internos del modal
+        const mImg = document.getElementById('modal-img');
+        const mTitle = document.getElementById('modal-title');
+        const mPrice = document.getElementById('modal-price');
+        const mDesc = document.getElementById('modal-desc');
+        const mCta = document.getElementById('modal-cta');
+
+        // Función global para abrir modal (llamada desde el HTML inyectado)
+        window.openModal = function(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            mImg.src = product.img;
+            mTitle.textContent = product.name;
+            mPrice.textContent = product.price;
+            mDesc.textContent = product.desc;
+
+            // Generar enlace de WhatsApp dinámico
+            const message = `Hola Burger KingKong, me interesa pedir: *${product.name}* (${product.price}). ¿Me confirman disponibilidad?`;
+            mCta.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Evitar scroll de fondo
+        }
+
+        // Cerrar Modal
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Cerrar al hacer clic fuera del contenido
+        window.addEventListener('click', (e) => {
+            if (e.target == modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        /* --- 4. MENÚ MÓVIL --- */
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Cerrar menú al hacer clic en un enlace
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+    </script>
+</body>
+</html>
